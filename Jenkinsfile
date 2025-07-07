@@ -2,34 +2,26 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven'   // Use exact Maven name from Jenkins Global Tools
-        jdk 'JDK-11'          // Or 'JDK 11' if that’s what you use
-    }
-
-    environment {
-        REPORT_PATH = "target/cucumber-report.html"
+        maven 'Maven'
+        jdk 'Java-11'
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/Vinoth-Crytonix/okdollar-api-automation'  // Replace with your GitHub repo URL
-            }
-        }
-
         stage('Build & Test') {
             steps {
                 sh 'mvn clean test'
             }
         }
 
-        stage('Publish Report') {
+        stage('Publish Cucumber Report') {
             steps {
-                publishHTML(target: [
-                    reportDir: 'target',
-                    reportFiles: 'cucumber-report.html',
-                    reportName: 'Cucumber Report',
-                    keepAll: true
+                publishHTML([
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: 'target/cucumber-reports',
+                    reportFiles: 'cucumber-html-reports.html',
+                    reportName: 'Cucumber Test Report'
                 ])
             }
         }
@@ -37,7 +29,7 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts artifacts: '**/target/*.html', allowEmptyArchive: true
+            echo 'Build finished.'
         }
     }
 }
