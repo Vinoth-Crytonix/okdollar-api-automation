@@ -58,6 +58,27 @@
           </suiteXmlFiles>
         </configuration>
       </plugin>
+      
+      <plugin>
+		  <groupId>net.masterthought</groupId>
+		  <artifactId>maven-cucumber-reporting</artifactId>
+		  <version>5.7.0</version>
+  <executions>
+    <execution>
+      <id>execution</id>
+      <phase>verify</phase>
+      <goals>
+        <goal>generate</goal>
+      </goals>
+      <configuration>
+        <projectName>OkDollar API Automation</projectName>
+        <outputDirectory>${project.build.directory}/cucumber-reports</outputDirectory>
+        <cucumberOutput>${project.build.directory}/cucumber.json</cucumberOutput>
+      </configuration>
+    </execution>
+  </executions>
+</plugin>
+
     </plugins>
   </build>
 
